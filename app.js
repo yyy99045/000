@@ -1,6 +1,6 @@
 // version v0.0.2
-// create by womade
-// detail url: https://github.com/womade/jd_sign_bot
+// create by ruicky
+// detail url: https://github.com/ruicky/jd_sign_bot
 
 const exec = require('child_process').execSync;
 const fs = require('fs');
@@ -9,7 +9,7 @@ const download = require('download');
 
 // 公共变量
 const KEY = process.env.JD_COOKIE;
-const ZPUSH = process.env.PUSH_KEY;
+const serverJ = process.env.PUSH_KEY;
 const DualKey = process.env.JD_COOKIE_2;
 
 
@@ -30,7 +30,7 @@ async function changeFile () {
 
 async function sendNotify (text,desp) {
   const options ={
-    uri:  `https://api.ssss.fun/push/post.php`,
+    uri:  `https://sc.ftqq.com/${serverJ}.send`,
     form: { text, desp },
     json: true,
     method: 'POST'
@@ -57,7 +57,7 @@ async function start() {
   await exec("node JD_DailyBonus.js >> result.txt");
   console.log('执行完毕')
 
-  if (ZPUSH) {
+  if (serverJ) {
     const path = "./result.txt";
     let content = "";
     if (fs.existsSync(path)) {
@@ -69,7 +69,7 @@ async function start() {
     let res2 = t2 ? t2[1].replace(/\n/,'') : '总计0'
 
     
-    await sendNotify("" + `subject=京东自动签到提醒&b1=` + ` ${res2} ` + ` ${res} ` + new Date().toLocaleDateString(), content);
+    await sendNotify("" + ` ${res2} ` + ` ${res} ` + new Date().toLocaleDateString(), content);
   }
 }
 
